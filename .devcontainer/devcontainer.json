@@ -2,10 +2,6 @@
   "name": "Android Dev",
   "image": "mcr.microsoft.com/devcontainers/java:1-17",
 
-  "features": {
-    "ghcr.io/devcontainers/features/android-sdk:1": {}
-  },
-
   "customizations": {
     "vscode": {
       "extensions": [
@@ -18,7 +14,7 @@
     }
   },
 
-  "postCreateCommand": "yes | sdkmanager --licenses && chmod +x gradlew && ./gradlew build",
+  "postCreateCommand": "sudo apt-get update && sudo apt-get install -y wget unzip && wget https://dl.google.com/android/repository/commandlinetools-linux-11076708_latest.zip -O android.zip && unzip android.zip -d $HOME/android-sdk && mkdir -p $HOME/android-sdk/cmdline-tools/latest && mv $HOME/android-sdk/cmdline-tools/* $HOME/android-sdk/cmdline-tools/latest/ || true && yes | $HOME/android-sdk/cmdline-tools/latest/bin/sdkmanager --licenses && echo 'export ANDROID_HOME=$HOME/android-sdk' >> ~/.bashrc && echo 'export PATH=$PATH:$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools' >> ~/.bashrc && source ~/.bashrc && chmod +x gradlew && ./gradlew build",
 
   "remoteUser": "vscode"
 }
