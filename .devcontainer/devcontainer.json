@@ -1,0 +1,19 @@
+{
+  "name": "While Java Project",
+  "image": "mcr.microsoft.com/devcontainers/java:1-17",
+
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "vscjava.vscode-java-pack",
+        "redhat.java",
+        "eamodio.gitlens",
+        "vscjava.vscode-gradle"
+      ]
+    }
+  },
+
+  "postCreateCommand": "chmod +x compilar.sh && bash compilar.sh",
+
+  "remoteUser": "vscode"
+}
