@@ -1,6 +1,11 @@
 While
 =====
 
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![Build Status](https://github.com/eldermaia2/paradigmas-de-programacao-ifrn-classroom-20252-implementacao-de-linguagens-while/actions/workflows/java.yml/badge.svg)](https://github.com/eldermaia2/paradigmas-de-programacao-ifrn-classroom-20252-implementacao-de-linguagens-while/actions)
+![Java](https://img.shields.io/badge/Java-17-orange)
+
+
 Linguagem "Enquanto" usada como exemplo na disciplina de Paradigmas de Linguagens de Programação
 
 > Implementação da linguagem em Scala (~250 linhas de código): [whilelang](http://github.com/lrlucena/whilelang)
