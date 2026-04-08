@@ -1,0 +1,34 @@
+name: Java CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout do repositório
+        uses: actions/checkout@v4
+
+      - name: Configurar Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Cache ANTLR
+        uses: actions/cache@v4
+        with:
+          path: lib/
+          key: ${{ runner.os }}-antlr
+
+      - name: Permissão no script
+        run: chmod +x compilar.sh
+
+      - name: Compilar
+        run: ./compilar.sh
+
+      - name: Executar teste
+        run: java -jar while.jar teste.while
