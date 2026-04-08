@@ -6,6 +6,8 @@
 
 Identifique se o versionamento semântico e o LTS estão disponíveis em dois dos componentes de software (bibliotecas, estruturas, SO) do seu software. Traga evidências (link) para as suas respostas.
 
+Não serão considerados os softwares ilustrados em sala de aula (ubuntu, java, python, node, angular).
+
 ---
 
 ## Resposta
