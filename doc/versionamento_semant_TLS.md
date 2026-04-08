@@ -25,31 +25,29 @@ Em relação ao suporte de longo prazo (LTS), o ANTLR não possui uma política 
 
 ---
 
-### 2. Java
+### 2. .NET
 
-O Java é a linguagem utilizada na implementação do projeto.
+O .NET é uma plataforma de desenvolvimento mantida pela Microsoft, amplamente utilizada para construção de aplicações.
 
-O Java adota um modelo de versionamento estruturado e organizado, com evolução controlada entre versões, semelhante aos princípios do versionamento semântico.
-
-**Evidência:**  
-https://www.oracle.com/java/technologies/javase/versioning-naming.html  
-
-Além disso, o Java possui versões com suporte de longo prazo (LTS), que recebem atualizações e correções por vários anos.
+O .NET utiliza um modelo de versionamento estruturado semelhante ao versionamento semântico, com versões como 6.0, 7.0 e 8.0.
 
 **Evidência:**  
-https://www.oracle.com/java/technologies/java-se-support-roadmap.html  
+https://learn.microsoft.com/en-us/dotnet/core/versions/  
+
+Além disso, o .NET possui versões com suporte de longo prazo (LTS), que recebem atualizações por vários anos.
+
+**Evidência:**  
+https://learn.microsoft.com/en-us/dotnet/core/versions/#lts-versions  
 
 Exemplos de versões LTS incluem:
-- Java 8  
-- Java 11  
-- Java 17  
-- Java 21  
+- .NET 6  
+- .NET 8  
 
 ---
 
 ## Conclusão
 
 - O ANTLR utiliza versionamento semântico, mas não possui suporte LTS.  
-- O Java utiliza versionamento estruturado e possui suporte LTS oficial.  
+- O .NET utiliza versionamento estruturado e possui suporte LTS oficial.  
 
 Dessa forma, observa-se que nem todos os componentes do software analisado oferecem suporte de longo prazo, embora ambos adotem práticas organizadas de versionamento.
