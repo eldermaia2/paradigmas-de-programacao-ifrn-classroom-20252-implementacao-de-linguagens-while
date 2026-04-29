@@ -32,7 +32,7 @@ public class Principal {
 
 		// 🔴 TESTE DE CÓDIGO DEPRECATED
 	    Thread t = new Thread();
-    	t.stop(); // deprecated
+    	t.interrupt();
 
 		final String arq;
 		if (args.length > 0) {
