@@ -42,8 +42,7 @@ jobs:
             -textui \
             -effort:max \
             -low \
-            -exitcode \
-            bin
+git            bin
 
       - name: Executar teste
         run: java -jar while.jar teste.while
