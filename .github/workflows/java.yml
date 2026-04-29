@@ -32,17 +32,18 @@ jobs:
 
       - name: Baixar SpotBugs
         run: |
-          wget https://github.com/spotbugs/spotbugs/releases/download/4.8.6/spotbugs-4.8.6.tgz
+          wget -q https://github.com/spotbugs/spotbugs/releases/download/4.8.6/spotbugs-4.8.6.tgz
           tar -xzf spotbugs-4.8.6.tgz
 
       - name: Análise com SpotBugs
         run: |
+          chmod +x ./spotbugs-4.8.6/bin/spotbugs
           ./spotbugs-4.8.6/bin/spotbugs \
-          -textui \
-          -effort:max \
-          -low \
-          -exitcode \
-          bin
+            -textui \
+            -effort:max \
+            -low \
+            -exitcode \
+            bin
 
       - name: Executar teste
         run: java -jar while.jar teste.while
