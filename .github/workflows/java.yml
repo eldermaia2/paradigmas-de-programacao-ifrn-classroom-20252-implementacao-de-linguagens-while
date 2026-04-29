@@ -22,13 +22,27 @@ jobs:
         uses: actions/cache@v4
         with:
           path: lib/
-          key: ${{ runner.os }}-antlr
+          key: ${{ runner.os }}-antlr-4.13.1
 
       - name: Permissão no script
         run: chmod +x compilar.sh
 
-      - name: Compilar
+      - name: Compilar (detecta deprecated)
         run: ./compilar.sh
+
+      - name: Baixar SpotBugs
+        run: |
+          wget https://github.com/spotbugs/spotbugs/releases/download/4.8.6/spotbugs-4.8.6.tgz
+          tar -xzf spotbugs-4.8.6.tgz
+
+      - name: Análise com SpotBugs
+        run: |
+          ./spotbugs-4.8.6/bin/spotbugs \
+          -textui \
+          -effort:max \
+          -low \
+          -exitcode \
+          bin
 
       - name: Executar teste
         run: java -jar while.jar teste.while
