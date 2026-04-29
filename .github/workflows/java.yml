@@ -42,7 +42,7 @@ jobs:
             -textui \
             -effort:max \
             -low \
-git            bin
+            bin
 
       - name: Executar teste
         run: java -jar while.jar teste.while
