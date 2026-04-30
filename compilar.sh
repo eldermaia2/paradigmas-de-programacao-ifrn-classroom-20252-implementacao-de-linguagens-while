@@ -16,4 +16,6 @@ $(find ./src -name "*.java")
 cp ./lib/antlr-runtime-4.13.1.jar while.jar
 
 # Empacota aplicação
-jar --update --file ./while.jar --main-class plp.enquanto.Principal -C bin plp
+jar --create --file while.jar \
+--main-class plp.enquanto.Principal \
+-C bin .
