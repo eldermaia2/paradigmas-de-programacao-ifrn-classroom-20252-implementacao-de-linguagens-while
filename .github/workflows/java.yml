@@ -45,4 +45,5 @@ jobs:
             bin
 
       - name: Executar teste
-        run: java -jar while.jar teste.while
+        run: 
+          java -cp "while.jar:lib/antlr-runtime-4.13.1.jar" plp.enquanto.Principal teste.while
