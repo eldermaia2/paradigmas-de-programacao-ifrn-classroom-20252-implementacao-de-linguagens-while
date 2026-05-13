@@ -46,5 +46,4 @@ jobs:
 
       - name: Executar teste
         run: |
-          java -cp "while.jar:lib/antlr-runtime-4.13.1.jar" \
-          plp.enquanto.Principal teste.while
+          ava -cp "while.jar:lib/antlr-runtime-4.13.1.jar" plp.enquanto.Principal teste.while
