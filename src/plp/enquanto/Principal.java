@@ -29,11 +29,6 @@ public class Principal {
 	}
 
 	public static void main(final String ... args) {
-
-		// 🔴 TESTE DE CÓDIGO DEPRECATED
-	    Thread t = new Thread();
-    	t.stop(); // deprecated
-
 		final String arq;
 		if (args.length > 0) {
 			arq = args[0];
