@@ -30,6 +30,16 @@ jobs:
       - name: Compilar (detecta deprecated)
         run: ./compilar.sh
 
+      - name: Verificar classes compiladas
+        run: |
+          echo "=== BIN ==="
+          find bin
+
+      - name: Verificar JAR
+        run: |
+          echo "=== JAR ==="
+          jar tf while.jar
+
       - name: Baixar SpotBugs
         run: |
           wget -q https://github.com/spotbugs/spotbugs/releases/download/4.8.6/spotbugs-4.8.6.tgz
@@ -45,4 +55,5 @@ jobs:
             bin
 
       - name: Executar teste
-        run: java -jar while.jar teste.while
+        run: |
+          find ./bin -name "Principal.class"

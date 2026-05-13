@@ -1,19 +1,34 @@
 #!/bin/bash
+set -e
 
-# Gera o parser com ANTLR
-java -jar ./lib/antlr-4.13.1-complete.jar -package plp.enquanto.parser ./src/plp/enquanto/parser/Enquanto.g4
+# Limpa builds anteriores
+rm -rf bin
+rm -f while.jar
 
-# Cria pasta bin (evita erro se não existir)
+# Gera parser ANTLR
+java -jar ./lib/antlr-4.13.1-complete.jar \
+-package plp.enquanto.parser \
+./src/plp/enquanto/parser/Enquanto.g4
+
+# Cria pasta bin
 mkdir -p bin
 
-# Compila com detecção de código deprecated (ESSENCIAL)
+# Compila tudo
 javac -Xlint:deprecation -Werror \
--cp ./lib/antlr-runtime-4.13.1.jar \
--d bin \
-$(find ./src -name "*.java")
+-cp "./lib/antlr-runtime-4.13.1.jar:." \
+-d ./bin \
+./src/plp/enquanto/parser/*.java \
+./src/plp/enquanto/*.java
 
-# Copia dependência para o jar final
-cp ./lib/antlr-runtime-4.13.1.jar while.jar
+# 🔥 DEBUG (IMPORTANTE)
+echo "Conteúdo do bin:"
+find bin
 
-# Empacota aplicação
-jar --update --file ./while.jar --main-class plp.enquanto.Principal -C bin plp
+# Cria jar corretamente
+jar --create --file while.jar \
+--main-class plp.enquanto.Principal \
+-C bin .
+
+# 🔥 DEBUG (IMPORTANTE)
+echo "Conteúdo do JAR:"
+jar tf while.jar
