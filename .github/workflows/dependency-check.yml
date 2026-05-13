@@ -1,0 +1,35 @@
+name: OWASP Dependency Check
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+
+jobs:
+  dependency-check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout do projeto
+        uses: actions/checkout@v4
+
+      - name: Configurar Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Executar OWASP Dependency Check
+        uses: dependency-check/Dependency-Check_Action@main
+        with:
+          project: 'while-language'
+          path: '.'
+          format: 'HTML'
+
+      - name: Upload do relatório
+        uses: actions/upload-artifact@v4
+        with:
+          name: dependency-check-report
+          path: reports
