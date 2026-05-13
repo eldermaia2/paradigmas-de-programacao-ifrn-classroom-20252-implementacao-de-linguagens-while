@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 # Limpa builds anteriores
 rm -rf bin
