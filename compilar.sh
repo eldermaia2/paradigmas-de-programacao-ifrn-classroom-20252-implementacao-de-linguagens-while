@@ -16,7 +16,8 @@ mkdir -p bin
 javac -Xlint:deprecation -Werror \
 -cp "./lib/antlr-runtime-4.13.1.jar" \
 -d bin \
-$(find ./src -name "*.java")
+./src/plp/enquanto/parser/*.java \
+./src/plp/enquanto/*.java
 
 # 🔥 DEBUG (IMPORTANTE)
 echo "Conteúdo do bin:"
