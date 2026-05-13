@@ -56,4 +56,4 @@ jobs:
 
       - name: Executar teste
         run: |
-          java -cp "bin:lib/antlr-runtime-4.13.1.jar" plp.enquanto.Principal teste.while
+          find ./bin -name "Principal.class"

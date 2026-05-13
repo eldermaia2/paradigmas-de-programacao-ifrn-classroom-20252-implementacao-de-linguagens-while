@@ -14,8 +14,8 @@ mkdir -p bin
 
 # Compila tudo
 javac -Xlint:deprecation -Werror \
--cp "./lib/antlr-runtime-4.13.1.jar" \
--d bin \
+-cp "./lib/antlr-runtime-4.13.1.jar:." \
+-d ./bin \
 ./src/plp/enquanto/parser/*.java \
 ./src/plp/enquanto/*.java
 
