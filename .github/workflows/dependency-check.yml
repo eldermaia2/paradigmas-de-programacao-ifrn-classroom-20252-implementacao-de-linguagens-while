@@ -32,7 +32,8 @@ jobs:
           --project "while-language" \
           --scan "." \
           --format "HTML" \
-          --out "reports"
+          --out "reports" \
+          --noupdate
 
       - name: Upload do relatório
         uses: actions/upload-artifact@v4
