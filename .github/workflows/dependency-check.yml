@@ -33,7 +33,7 @@ jobs:
           --scan "." \
           --format "HTML" \
           --out "reports" \
-          --noupdate
+          --nvdApiDelay 5000
 
       - name: Upload do relatório
         uses: actions/upload-artifact@v4
