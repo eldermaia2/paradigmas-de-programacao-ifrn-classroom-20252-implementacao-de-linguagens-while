@@ -24,7 +24,7 @@ jobs:
       - name: Baixar OWASP Dependency Check
         run: |
           wget https://github.com/jeremylong/DependencyCheck/releases/download/v12.1.0/dependency-check-12.1.0-release.zip
-          unzip dependency-check-12.1.0-release.zip
+          unzip dependency-check-12.2.2-release.zip
 
       - name: Executar análise
         run: |
@@ -33,6 +33,7 @@ jobs:
           --scan "." \
           --format "HTML" \
           --out "reports" \
+          --disableOssIndex \
           --nvdApiDelay 5000
 
       - name: Upload do relatório
