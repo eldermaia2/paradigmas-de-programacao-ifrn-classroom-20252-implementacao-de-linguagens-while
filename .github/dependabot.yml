@@ -9,3 +9,10 @@ updates:
     directory: "/.devcontainer"
     schedule:
       interval: "weekly"
+
+    labels:
+      - "dependencies"
+      - "security"
+
+    commit-message:
+      prefix: "chore"
