@@ -14,7 +14,7 @@ jobs:
 
     steps:
       - name: Checkout do projeto
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Criar diretórios
         run: |
