@@ -21,6 +21,12 @@ jobs:
           mkdir -p reports
           mkdir -p odc-data
 
+      - name: Restaurar cache do Dependency Check
+        uses: actions/cache@v4
+        with:
+          path: odc-data
+          key: dependency-check-cache
+
       - name: Executar OWASP Dependency Check
         run: |
           docker run --rm \
@@ -30,12 +36,12 @@ jobs:
             owasp/dependency-check:latest \
             --scan /src \
             --format HTML \
-            --format JSON \
             --out /src/reports \
+            --noupdate \
             --disableYarnAudit
 
       - name: Upload do relatório
         uses: actions/upload-artifact@v4
         with:
           name: dependency-check-report
-          path: reports
+          path: reports/dependency-check-report.html
