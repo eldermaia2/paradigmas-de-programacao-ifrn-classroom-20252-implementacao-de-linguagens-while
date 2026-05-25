@@ -15,6 +15,9 @@ jobs:
     steps:
       - name: Checkout do projeto
         uses: actions/checkout@v4
+      
+      - name: Criar pasta de relatórios
+        run: mkdir -p reports
 
       - name: Executar OWASP Dependency Check
         run: |
@@ -29,4 +32,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: dependency-check-report
-          path: reports
+          path: reports/dependency-check-report.html
