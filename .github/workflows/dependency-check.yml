@@ -37,7 +37,6 @@ jobs:
             --scan /src \
             --format HTML \
             --out /src/reports \
-            --noupdate \
             --disableYarnAudit
 
       - name: Upload do relatório
