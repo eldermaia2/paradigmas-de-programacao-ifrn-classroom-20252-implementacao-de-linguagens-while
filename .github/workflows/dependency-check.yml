@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - master
+
   pull_request:
 
 jobs:
@@ -15,25 +16,23 @@ jobs:
       - name: Checkout do projeto
         uses: actions/checkout@v4
 
-      - name: Configurar Java
-        uses: actions/setup-java@v4
-        with:
-          distribution: temurin
-          java-version: '17'
-
-      - name: Baixar OWASP Dependency Check
+      - name: Criar diretórios
         run: |
-          wget https://github.com/jeremylong/DependencyCheck/releases/download/v12.2.2/dependency-check-12.2.2-release.zip
-    unzip dependency-check-12.2.2-release.zip
+          mkdir -p reports
+          mkdir -p odc-data
 
-      - name: Executar análise
+      - name: Executar OWASP Dependency Check
         run: |
-          ./dependency-check/bin/dependency-check.sh \
-          --project "while-language" \
-          --scan "." \
-          --format "HTML" \
-          --out "reports" \
-          --nvdApiDelay 5000
+          docker run --rm \
+            -u root \
+            -v ${{ github.workspace }}:/src \
+            -v ${{ github.workspace }}/odc-data:/usr/share/dependency-check/data \
+            owasp/dependency-check:latest \
+            --scan /src \
+            --format HTML \
+            --format JSON \
+            --out /src/reports \
+            --disableYarnAudit
 
       - name: Upload do relatório
         uses: actions/upload-artifact@v4
