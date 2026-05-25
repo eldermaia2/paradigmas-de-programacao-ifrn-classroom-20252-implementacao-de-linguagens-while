@@ -15,21 +15,27 @@ jobs:
     steps:
       - name: Checkout do projeto
         uses: actions/checkout@v4
-      
-      - name: Criar pasta de relatórios
-        run: mkdir -p reports
+
+      - name: Criar diretórios
+        run: |
+          mkdir -p reports
+          mkdir -p odc-data
 
       - name: Executar OWASP Dependency Check
         run: |
           docker run --rm \
+            -u root \
             -v ${{ github.workspace }}:/src \
+            -v ${{ github.workspace }}/odc-data:/usr/share/dependency-check/data \
             owasp/dependency-check:latest \
             --scan /src \
             --format HTML \
-            --out /src/reports
+            --format JSON \
+            --out /src/reports \
+            --disableYarnAudit
 
       - name: Upload do relatório
         uses: actions/upload-artifact@v4
         with:
           name: dependency-check-report
-          path: reports/dependency-check-report.html
+          path: reports
