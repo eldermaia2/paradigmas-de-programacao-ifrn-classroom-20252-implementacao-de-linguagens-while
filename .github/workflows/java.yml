@@ -40,6 +40,16 @@ jobs:
           echo "=== JAR ==="
           jar tf while.jar
 
+      - name: Baixar Checkstyle
+        run: |
+          wget -q https://github.com/checkstyle/checkstyle/releases/download/checkstyle-10.17.0/checkstyle-10.17.0-all.jar
+
+      - name: Verificar padrão de codificação
+        run: |
+          java -jar checkstyle-10.17.0-all.jar \
+            -c config/checkstyle.xml \
+            src/
+
       - name: Baixar SpotBugs
         run: |
           wget -q https://github.com/spotbugs/spotbugs/releases/download/4.8.6/spotbugs-4.8.6.tgz
