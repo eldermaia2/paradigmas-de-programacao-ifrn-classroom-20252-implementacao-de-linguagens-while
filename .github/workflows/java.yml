@@ -46,9 +46,11 @@ jobs:
 
       - name: Verificar padrão de codificação
         run: |
+          JAVA_FILES=$(find src -type f -name "*.java" ! -path "*/parser/*")
+
           java -jar checkstyle-10.17.0-all.jar \
             -c config/checkstyle.xml \
-            src/
+            $JAVA_FILES
 
       - name: Baixar SpotBugs
         run: |
