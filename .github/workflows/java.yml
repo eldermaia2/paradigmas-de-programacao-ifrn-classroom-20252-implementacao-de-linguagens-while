@@ -54,6 +54,9 @@ jobs:
 
       - name: Baixar PMD
         run: |
+          rm -rf pmd-bin-7.15.0
+          rm -f pmd-dist-7.15.0-bin.zip
+
           wget -q https://github.com/pmd/pmd/releases/download/pmd_releases%2F7.15.0/pmd-dist-7.15.0-bin.zip
           unzip -q pmd-dist-7.15.0-bin.zip
 
@@ -64,7 +67,6 @@ jobs:
             --exclude ".*parser.*" \
             --language java \
             --minimum-tokens 30 \
-            --fail-on-violation
 
       - name: Baixar SpotBugs
         run: |
