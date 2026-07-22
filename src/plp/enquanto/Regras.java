@@ -147,7 +147,7 @@ public class Regras extends EnquantoBaseListener {
     }
 
     @Override
-        public void exitOpRel(OpRelContext ctx) {
+    public void exitOpRel(OpRelContext ctx) {
         final Expressao esq = valores.pegue(ctx.expressao(0));
         final Expressao dir = valores.pegue(ctx.expressao(1));
         final String op = ctx.getChild(1).getText();
@@ -157,5 +157,27 @@ public class Regras extends EnquantoBaseListener {
             default -> new ExpIgual(esq, esq);
         };
         valores.insira(ctx, exp);
+    }
+
+    /**
+     * Método criado apenas para validar o detector de código duplicado (CPD).
+    */
+    private int exemploDuplicado1(int a, int b) {
+        int resultado = a + b;
+        resultado *= 2;
+        resultado -= a;
+        resultado += b;
+        return resultado;
+    }
+
+    /**
+     * Método criado apenas para validar o detector de código duplicado (CPD).
+     */
+    private int exemploDuplicado2(int a, int b) {
+        int resultado = a + b;
+        resultado *= 2;
+        resultado -= a;
+        resultado += b;
+        return resultado;
     }
 }
