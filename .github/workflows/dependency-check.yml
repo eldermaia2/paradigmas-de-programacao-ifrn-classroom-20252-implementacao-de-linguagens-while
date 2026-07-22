@@ -22,7 +22,7 @@ jobs:
           mkdir -p odc-data
 
       - name: Restaurar cache da base do Dependency Check
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: odc-data
           key: dependency-check-${{ runner.os }}
