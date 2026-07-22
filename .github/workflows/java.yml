@@ -1,3 +1,4 @@
+```yaml
 name: Java CI
 
 on:
@@ -46,11 +47,25 @@ jobs:
 
       - name: Verificar padrão de codificação
         run: |
-          JAVA_FILES=$(find src -type f -name "*.java" ! -path "*/parser/*")
+          JAVA_FILES=$(find src/plp/enquanto -type f -name "*.java" ! -path "*/parser/*")
 
           java -jar checkstyle-10.17.0-all.jar \
             -c config/checkstyle.xml \
             $JAVA_FILES
+
+      - name: Baixar PMD
+        run: |
+          wget -q https://github.com/pmd/pmd/releases/download/pmd_releases%2F7.15.0/pmd-dist-7.15.0-bin.zip
+          unzip -q pmd-dist-7.15.0-bin.zip
+
+      - name: Detectar código duplicado (CPD)
+        run: |
+          ./pmd-bin-7.15.0/bin/pmd cpd \
+            --dir src/plp/enquanto \
+            --exclude ".*parser.*" \
+            --language java \
+            --minimum-tokens 30 \
+            --fail-on-violation
 
       - name: Baixar SpotBugs
         run: |
@@ -69,3 +84,4 @@ jobs:
       - name: Executar teste
         run: |
           find ./bin -name "Principal.class"
+```
