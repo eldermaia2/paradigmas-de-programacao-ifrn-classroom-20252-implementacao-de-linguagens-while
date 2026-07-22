@@ -152,9 +152,9 @@ public class Regras extends EnquantoBaseListener {
         final Expressao dir = valores.pegue(ctx.expressao(1));
         final String op = ctx.getChild(1).getText();
         final Bool exp = switch (op) {
-            case "=" -> new ExpIgual(esq, dir);
-            case "<=" -> new ExpMenorIgual(esq, dir);
-            default -> new ExpIgual(esq, esq);
+          case "=" -> new ExpIgual(esq, dir);
+          case "<=" -> new ExpMenorIgual(esq, dir);
+          default -> new ExpIgual(esq, esq);
         };
         valores.insira(ctx, exp);
     }
