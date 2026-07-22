@@ -46,7 +46,7 @@ jobs:
             --nvdApiKey "$NVD_API_KEY"
 
       - name: Upload do relatório
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: dependency-check-report
           path: reports/dependency-check-report.html
