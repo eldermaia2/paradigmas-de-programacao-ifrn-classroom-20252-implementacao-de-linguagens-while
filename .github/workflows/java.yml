@@ -1,4 +1,3 @@
-```yaml
 name: Java CI
 
 on:
@@ -55,14 +54,24 @@ jobs:
 
       - name: Baixar PMD
         run: |
+          rm -rf pmd-bin-7.15.0
+          rm -f pmd-dist-7.15.0-bin.zip
+
           wget -q https://github.com/pmd/pmd/releases/download/pmd_releases%2F7.15.0/pmd-dist-7.15.0-bin.zip
           unzip -q pmd-dist-7.15.0-bin.zip
 
       - name: Detectar código duplicado (CPD)
         run: |
+          rm -rf cpd-src
+          mkdir -p cpd-src
+
+          find src/plp/enquanto \
+            -name "*.java" \
+            ! -path "*/parser/*" \
+            -exec cp --parents {} cpd-src \;
+
           ./pmd-bin-7.15.0/bin/pmd cpd \
-            --dir src/plp/enquanto \
-            --exclude ".*parser.*" \
+            --dir cpd-src/src/plp/enquanto \
             --language java \
             --minimum-tokens 30 \
             --fail-on-violation
@@ -84,4 +93,3 @@ jobs:
       - name: Executar teste
         run: |
           find ./bin -name "Principal.class"
-```

@@ -9,6 +9,7 @@ import plp.enquanto.parser.EnquantoBaseListener;
 import plp.enquanto.parser.EnquantoParser.*;
 
 public class Regras extends EnquantoBaseListener {
+
     private final Leia leia;
     private final Skip skip;
     private final Propriedades valores;
@@ -68,15 +69,14 @@ public class Regras extends EnquantoBaseListener {
 
     @Override
     public void exitId(IdContext ctx) {
-        final String id = ctx.ID().getText();
-        valores.insira(ctx, new Id(id));
+        valores.insira(ctx, new Id(ctx.ID().getText()));
     }
 
     @Override
     public void exitSeqComando(SeqComandoContext ctx) {
         final List<Comando> comandos = new ArrayList<>();
-        for (ComandoContext c : ctx.comando()) {
-            comandos.add(valores.pegue(c));
+        for (ComandoContext comando : ctx.comando()) {
+            comandos.add(valores.pegue(comando));
         }
         valores.insira(ctx, comandos);
     }
@@ -94,17 +94,26 @@ public class Regras extends EnquantoBaseListener {
         valores.insira(ctx, new Bloco(cmds));
     }
 
+    @FunctionalInterface
+    private interface Operacao<T>{
+        T criar(String op, Expressao esq, Expressao dir);
+    }
+
+    private <T> void processarOperacao(ParserRuleContext ctx, ExpressaoContext esquerda,
+            ExpressaoContext direita, Operacao<T> operacao){
+        Expressao esq=valores.pegue(esquerda);
+        Expressao dir=valores.pegue(direita);
+        valores.insira(ctx, operacao.criar(ctx.getChild(1).getText(), esq, dir));
+    }
+
     @Override
     public void exitOpBin(OpBinContext ctx) {
-        final Expressao esq = valores.pegue(ctx.expressao(0));
-        final Expressao dir = valores.pegue(ctx.expressao(1));
-        final String op = ctx.getChild(1).getText();
-        final Expressao exp = switch (op) {
-            case "*" -> new ExpMult(esq, dir);
-            case "-" -> new ExpSub(esq, dir);
-            default -> new ExpSoma(esq, dir);
-        };
-        valores.insira(ctx, exp);
+        processarOperacao(ctx, ctx.expressao(0), ctx.expressao(1),
+            (op, esq, dir) -> switch (op) {
+                case "*" -> new ExpMult(esq, dir);
+                case "-" -> new ExpSub(esq, dir);
+                default -> new ExpSoma(esq, dir);
+            });
     }
 
     @Override
@@ -123,61 +132,32 @@ public class Regras extends EnquantoBaseListener {
 
     @Override
     public void exitBoolPar(BoolParContext ctx) {
-        final Bool booleano = valores.pegue(ctx.booleano());
-        valores.insira(ctx, booleano);
+        valores.insira(ctx, valores.pegue(ctx.booleano()));
     }
 
     @Override
     public void exitNaoLogico(NaoLogicoContext ctx) {
-        final Bool b = valores.pegue(ctx.booleano());
-        valores.insira(ctx, new NaoLogico(b));
+        valores.insira(ctx, new NaoLogico(valores.pegue(ctx.booleano())));
     }
 
     @Override
     public void exitExpPar(ExpParContext ctx) {
-        final Expressao exp = valores.pegue(ctx.expressao());
-        valores.insira(ctx, exp);
+        valores.insira(ctx, valores.pegue(ctx.expressao()));
     }
 
     @Override
     public void exitExiba(ExibaContext ctx) {
-        final String t = ctx.TEXTO().getText();
-        final String texto = t.substring(1, t.length() - 1);
-        valores.insira(ctx, new Exiba(texto));
+        final String texto = ctx.TEXTO().getText();
+        valores.insira(ctx, new Exiba(texto.substring(1, texto.length() - 1)));
     }
 
     @Override
     public void exitOpRel(OpRelContext ctx) {
-        final Expressao esq = valores.pegue(ctx.expressao(0));
-        final Expressao dir = valores.pegue(ctx.expressao(1));
-        final String op = ctx.getChild(1).getText();
-        final Bool exp = switch (op) {
-            case "=" -> new ExpIgual(esq, dir);
-            case "<=" -> new ExpMenorIgual(esq, dir);
-            default -> new ExpIgual(esq, esq);
-        };
-        valores.insira(ctx, exp);
-    }
-
-    /**
-     * Método criado apenas para validar o detector de código duplicado (CPD).
-    */
-    private int exemploDuplicado1(int a, int b) {
-        int resultado = a + b;
-        resultado *= 2;
-        resultado -= a;
-        resultado += b;
-        return resultado;
-    }
-
-    /**
-     * Método criado apenas para validar o detector de código duplicado (CPD).
-     */
-    private int exemploDuplicado2(int a, int b) {
-        int resultado = a + b;
-        resultado *= 2;
-        resultado -= a;
-        resultado += b;
-        return resultado;
+        processarOperacao(ctx, ctx.expressao(0), ctx.expressao(1),
+            (op, esq, dir) -> switch (op) {
+                case "=" -> new ExpIgual(esq, dir);
+                case "<=" -> new ExpMenorIgual(esq, dir);
+                default -> new ExpIgual(esq, dir);
+            });
     }
 }
