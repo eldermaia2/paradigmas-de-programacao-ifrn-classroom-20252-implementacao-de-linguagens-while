@@ -62,11 +62,19 @@ jobs:
 
       - name: Detectar código duplicado (CPD)
         run: |
+          rm -rf cpd-src
+          mkdir -p cpd-src
+
+          find src/plp/enquanto \
+            -name "*.java" \
+            ! -path "*/parser/*" \
+            -exec cp --parents {} cpd-src \;
+
           ./pmd-bin-7.15.0/bin/pmd cpd \
-            --dir src/plp/enquanto \
-            --exclude ".*parser.*" \
+            --dir cpd-src/src/plp/enquanto \
             --language java \
             --minimum-tokens 30 \
+            --fail-on-violation
 
       - name: Baixar SpotBugs
         run: |
