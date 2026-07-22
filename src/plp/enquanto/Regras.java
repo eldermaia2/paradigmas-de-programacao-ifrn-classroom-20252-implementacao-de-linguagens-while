@@ -94,40 +94,26 @@ public class Regras extends EnquantoBaseListener {
         valores.insira(ctx, new Bloco(cmds));
     }
 
-    /**
-     * Obtém os operandos de uma operação binária.
-     */
-    private Expressao[] obterOperandos(ParserRuleContext ctx, ExpressaoContext esquerda,
-            ExpressaoContext direita) {
-        return new Expressao[] {
-            valores.pegue(esquerda),
-            valores.pegue(direita)
-        };
+    @FunctionalInterface
+    private interface Operacao<T>{
+        T criar(String op, Expressao esq, Expressao dir);
     }
 
-    /**
-     * Obtém o operador textual.
-     */
-    private String obterOperador(ParserRuleContext ctx) {
-        return ctx.getChild(1).getText();
+    private <T> void processarOperacao(ParserRuleContext ctx, ExpressaoContext esquerda,
+            ExpressaoContext direita, Operacao<T> operacao){
+        Expressao esq=valores.pegue(esquerda);
+        Expressao dir=valores.pegue(direita);
+        valores.insira(ctx, operacao.criar(ctx.getChild(1).getText(), esq, dir));
     }
 
     @Override
     public void exitOpBin(OpBinContext ctx) {
-        final Expressao[] operandos = obterOperandos(
-                ctx,
-                ctx.expressao(0),
-                ctx.expressao(1));
-
-        final String op = obterOperador(ctx);
-
-        final Expressao exp = switch (op) {
-            case "*" -> new ExpMult(operandos[0], operandos[1]);
-            case "-" -> new ExpSub(operandos[0], operandos[1]);
-            default -> new ExpSoma(operandos[0], operandos[1]);
-        };
-
-        valores.insira(ctx, exp);
+        processarOperacao(ctx, ctx.expressao(0), ctx.expressao(1),
+            (op, esq, dir) -> switch (op) {
+                case "*" -> new ExpMult(esq, dir);
+                case "-" -> new ExpSub(esq, dir);
+                default -> new ExpSoma(esq, dir);
+            });
     }
 
     @Override
@@ -167,19 +153,11 @@ public class Regras extends EnquantoBaseListener {
 
     @Override
     public void exitOpRel(OpRelContext ctx) {
-        final Expressao[] operandos = obterOperandos(
-                ctx,
-                ctx.expressao(0),
-                ctx.expressao(1));
-
-        final String op = obterOperador(ctx);
-
-        final Bool exp = switch (op) {
-            case "=" -> new ExpIgual(operandos[0], operandos[1]);
-            case "<=" -> new ExpMenorIgual(operandos[0], operandos[1]);
-            default -> new ExpIgual(operandos[0], operandos[0]);
-        };
-
-        valores.insira(ctx, exp);
+        processarOperacao(ctx, ctx.expressao(0), ctx.expressao(1),
+            (op, esq, dir) -> switch (op) {
+                case "=" -> new ExpIgual(esq, dir);
+                case "<=" -> new ExpMenorIgual(esq, dir);
+                default -> new ExpIgual(esq, dir);
+            });
     }
 }
